@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<palette>
+    
+    <block tag="initAppLovin" spec="Initialize AppLovin [c:applovin]" code="AppLovin.init();" help="Add Your AppLovin SDK Key in the include.xml fine in the applovin extension folder" type="action" color="charcoal" returns="void">
+        <fields>
+        </fields>
+    </block>
+    
+    <block tag="showInterstitialAppLovin" spec=" %0 AppLovin Interstitial/Video [c:applovin]" code="AppLovin.~Interstitial();" help="Load the Interstitial before you can show an Interstitial/Video ad" type="action" color="charcoal" returns="void">
+        <fields>
+            <dropdown order="0">
+                <choices>
+                    <c text="Load" code="load"></c>
+                    <c text="Show" code="show"></c>
+                </choices>
+            </dropdown>
+        </fields>
+    </block>
+    
+    <block tag="loadRewardedAppLovin" spec=" %0 AppLovin Rewarded Video [c:applovin]" code="AppLovin.~Rewarded();"  help="Load the Rewarded Video before you can show an Reward Video" type="action" color="charcoal" returns="void">
+        <fields>
+            <dropdown order="0">
+                <choices>
+                    <c text="Load" code="load"></c>
+                    <c text="Show" code="show"></c>
+                </choices>
+            </dropdown>
+        </fields>
+    </block>
+    
+    <block tag="getCurrencyAmountAppLovin" spec="Get %0 [c:applovin]" code="AppLovin.~()" help="Gets the Currency and Amount as Text from Applovin Dashboard (rewarded video only)" type="normal" color="charcoal" returns="text">
+        <fields>
+            <dropdown order="0">
+                <choices>
+                    <c text="Currency" code="getCurrency"></c>
+                    <c text="Amount" code="getAmount"></c>
+                </choices>
+            </dropdown>
+        </fields>
+    </block>
+    
+    <block tag="getInterstitialAdInfoAppLovin" spec="AppLovin Interstitial/Video Ad %0 [c:applovin]" code="AppLovin.~()" type="normal" color="charcoal" returns="boolean">
+        <fields>
+            <dropdown order="0">
+                <choices>
+                    <c text="is loaded " code="interstitialIsLoaded"></c>
+                    <c text="failed to load" code="interstitialFailedToLoad"></c>
+                    <c text="is displayed" code="interstitialIsDisplayed"></c>
+                    <c text="is closed" code="interstitialClosed"></c>
+                    <c text="is clicked" code="interstitialClicked"></c>
+                    <c text="is started (video only)" code="videoStarted"></c>
+                    <c text="is ended (video only)" code="videoEnded"></c>
+                </choices>
+            </dropdown>
+        </fields>
+    </block>
+    
+    <block tag="getRewardedAdInfoAppLovin" spec="AppLovin Rewarded Video %0 [c:applovin]" code="AppLovin.~()" type="normal" color="charcoal" returns="boolean">
+        <fields>
+            <dropdown order="0">
+                <choices>
+                    <c text="is loaded " code="rewardedIsLoaded"></c>
+                    <c text="failed to load" code="rewardedFailedToLoad"></c>
+                    <c text="is displayed" code="rewardedIsDisplayed"></c>
+                    <c text="is closed" code="rewardedClosed"></c>
+                    <c text="is clicked" code="rewardedClicked"></c>
+                    <c text="is started" code="rewardedStarted"></c>
+                    <c text="is ended" code="rewardedEnded"></c>
+                    <c text="is fully watched" code="rewardedFullyWatched"></c>
+                    <c text="is not fully watched" code="rewardedNotFullyWatched"></c>
+                </choices>
+            </dropdown>
+        </fields>
+    </block>
+    
+    
+</palette>

@@ -1,0 +1,6 @@
+name=AppLovin Advertising v0.0.4 (byRobin)
+description=Implements AppLovin for iOS and Android.
+author=Robin Schaafsma
+website=http://www.byrobingames.com
+version=0.0.4
+compatibility=mobile
