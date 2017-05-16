@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "ALAnnotations.h"
 
+AL_ASSUME_NONNULL_BEGIN
+
 /**
  *  This class is used to set more specific targeting data.
  */
@@ -24,12 +26,12 @@
 /**
  * Set carrier current device is on.
  */
-@property (strong, nonatomic) NSString * __alnullable carrier __deprecated;
+@property (strong, nonatomic, alnullable) NSString *carrier __deprecated;
 
 /**
  * Set a two-character ISO 3166-1 country code of the device.
  */
-@property (strong, nonatomic) NSString * __alnullable country __deprecated;
+@property (strong, nonatomic, alnullable) NSString *country __deprecated;
 
 /**
  * Set the year of birth of current user.
@@ -37,7 +39,7 @@
 @property (assign, nonatomic) NSInteger birthYear;
 
 /**
- * Gender of the  current user. 
+ * Gender of the  current user.
  * <p>
  * Following constants contain supported values: <code>kALGenderMale</code> and
  * <code>kALGenderFemale</code>.
@@ -48,23 +50,23 @@
  * The language of the current user. Language is expressed as two-character
  * ISO 639-1 language code.
  */
-@property (strong, nonatomic) NSString * __alnullable language;
+@property (strong, nonatomic, alnullable) NSString *language;
 
 /**
  * Keywords for the application.
  */
-@property (strong, nonatomic) NSArray * __alnullable keywords;
+@property (strong, nonatomic, alnullable) NSArray *keywords;
 
 /**
  * Interests for the user.
  */
-@property (strong, nonatomic) NSArray * __alnullable interests;
+@property (strong, nonatomic, alnullable) NSArray *interests;
 
 /**
  * Set the location of current user. The location represented as
  * longiture and latitude.
  */
-- (void)setLocationWithLatitude:(double) latitude longitude:(double) longitude __deprecated;
+- (void)setLocationWithLatitude:(double)latitude longitude:(double)longitude __deprecated;
 
 /**
  * Put an extra targeting parameter
@@ -84,3 +86,5 @@
 - (void)clearAll;
 
 @end
+
+AL_ASSUME_NONNULL_END
