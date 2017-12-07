@@ -17,11 +17,14 @@
 // Indicates that the device is not connected to internet (for instance if user is in Airplane mode). This returns the same code as NSURLErrorNotConnectedToInternet.
 #define kALErrorCodeNotConnectedToInternet -1009
 
-// Indicates that an unspecified network issue occured.
+// Indicates that an unspecified network issue occurred.
 #define kALErrorCodeAdRequestUnspecifiedError -1
 
 // Indicates that there has been a failure to render an ad on screen.
 #define kALErrorCodeUnableToRenderAd -6
+
+// Indicates that the zone provided is invalid; the zone needs to be added to your AppLovin account.
+#define kALErrorCodeInvalidZone -7
 
 // Indicates that an attempt to cache a resource to the filesystem failed; the device may be out of space.
 #define kALErrorCodeUnableToPrecacheResources -200
@@ -40,6 +43,9 @@
 
 // Indicates that an unspecified network issue occurred.
 #define kALErrorCodeUnableToPreloadNativeAd -701
+
+// Indicates that the impression has already been tracked.
+#define kALErrorCodeNativeAdImpressionAlreadyTracked -702
 
 
 //

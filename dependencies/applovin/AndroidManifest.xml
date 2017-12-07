@@ -15,10 +15,8 @@
         <meta-data android:name="applovin.sdk.key"
         android:value="::ENV_APPLOVIN_SDKKEY::" />
         
-        <activity
-        android:name="com.applovin.adview.AppLovinInterstitialActivity"
-        android:configChanges="orientation|screenSize"/>
-        <activity android:name="com.applovin.adview.AppLovinConfirmationActivity" />
+        <activity android:name="com.applovin.adview.AppLovinInterstitialActivity" android:configChanges="orientation|screenSize"/>
+        <activity android:name="com.applovin.adview.AppLovinConfirmationActivity" android:configChanges="orientation|screenSize"/>
         
     </application>
 </manifest>

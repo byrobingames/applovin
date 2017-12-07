@@ -11,7 +11,6 @@
 #import "ALSdkSettings.h"
 #import "ALAdService.h"
 #import "ALNativeAdService.h"
-#import "ALTargetingData.h"
 #import "ALPostbackService.h"
 #import "ALEventService.h"
 
@@ -62,6 +61,13 @@ AL_ASSUME_NONNULL_BEGIN
 + (NSString *)version;
 
 /**
+ * Get the current version of the SDK in numeric format.
+ *
+ * @return The current SDK version in numeric format.
+ */
++ (NSUInteger)versionCode;
+
+/**
  * @name SDK Services
  */
 
@@ -103,20 +109,6 @@ AL_ASSUME_NONNULL_BEGIN
  * ping your currency endpoint from our server.
  */
 @property (copy, nonatomic, alnullable) NSString *userIdentifier;
-
-
-/**
- * @name Custom User Targeting
- */
-
-/**
- * Get an instance of AppLovin Targeting data. This object contains
- * targeting values that could be provided to AppLovin for better
- * advertisement performance.
- *
- * @return Current targeting data. Guaranteed not to be null.
- */
-@property (strong, nonatomic, readonly) ALTargetingData *targetingData;
 
 /**
  * @name SDK Initialization

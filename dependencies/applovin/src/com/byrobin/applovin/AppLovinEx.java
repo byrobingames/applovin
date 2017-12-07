@@ -18,6 +18,7 @@ import android.content.ActivityNotFoundException;
 import org.haxe.extension.Extension;
 import org.haxe.lime.HaxeObject;
 
+import com.applovin.adview.AppLovinAdView;
 import com.applovin.adview.AppLovinInterstitialAd;
 import com.applovin.adview.AppLovinInterstitialAdDialog;
 import com.applovin.adview.AppLovinIncentivizedInterstitial;
@@ -31,6 +32,14 @@ import com.applovin.sdk.AppLovinAdVideoPlaybackListener;
 import com.applovin.sdk.AppLovinErrorCodes;
 import com.applovin.sdk.AppLovinSdk;
 
+import android.view.Gravity;
+import android.view.animation.Animation;
+import android.view.animation.AlphaAnimation;
+import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
+import android.view.ViewGroup;
+
 import java.util.Map;
 
 public class AppLovinEx extends Extension {
@@ -40,19 +49,25 @@ public class AppLovinEx extends Extension {
 	//////////////////////////////////////////////////////////////////////////////////////////////////
     private static AppLovinEx _self = null;
     protected static HaxeObject appLovinCallback;
+    private static String testAds=null;
     
     //////////////////////////////////////////////////////////////////////////////////////////////////
     
+    private AppLovinAdView adView;
+    private LinearLayout layout;
     private AppLovinInterstitialAdDialog interstitialAdDialog;
     private AppLovinIncentivizedInterstitial incentivizedInterstitial;
     private AppLovinAd currentAd;
+    
+    private static int gravity=Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
-	static public void init(HaxeObject cb){
+	static public void init(HaxeObject cb,final String testMode){
         
         appLovinCallback = cb;
+        testAds = testMode;
         
 		Extension.mainActivity.runOnUiThread(new Runnable() {
             public void run() 
@@ -60,11 +75,123 @@ public class AppLovinEx extends Extension {
                 Log.d("AppLovinEx","Init AppLovin:");
                 
                 AppLovinSdk.initializeSdk(mainActivity);
+                if (testMode.equals("YES")){
+                    AppLovinSdk.getInstance(mainActivity).getSettings().setTestAdsEnabled(true);
+                }
                 
                 _self.setCallbackInterstitialListeners();
 			}
 		});	
 	}
+    
+    static public void loadBanner()
+    {
+        Extension.mainActivity.runOnUiThread(new Runnable() {
+            public void run()
+            {
+                if(_self.adView==null){ // if this is the first time we call this function
+                    _self.layout = new LinearLayout(mainActivity);
+                    _self.layout.setGravity(gravity);
+                } else {
+                    ViewGroup parent = (ViewGroup) _self.layout.getParent();
+                    parent.removeView(_self.layout);
+                    _self.layout.removeView(_self.adView);
+                    hideBanner();
+                    //_self.adView.destroy(mainActivity);
+                }
+                
+                _self.adView = new AppLovinAdView( AppLovinAdSize.BANNER, mainActivity );
+                
+                mainActivity.addContentView(_self.layout, new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
+                _self.layout.addView(_self.adView);
+                _self.layout.bringToFront();
+                
+                _self.adView.setAdLoadListener( new AppLovinAdLoadListener()
+                                         {
+                    @Override
+                    public void adReceived(final AppLovinAd ad)
+                    {
+                        Log.d("AppLovinEx","Banner loaded");
+                        hideBanner();
+                        appLovinCallback.call("onBannerIsLoaded", new Object[] {});
+                    }
+                    
+                    @Override
+                    public void failedToReceiveAd(final int errorCode)
+                    {
+                        // Look at AppLovinErrorCodes.java for list of error codes
+                        Log.d("ApplovinEx","Banner failed to load with error code " + errorCode);
+                        appLovinCallback.call("onBannerFailedToLoad", new Object[] {});
+                    }
+                } );
+                
+                _self.adView.loadNextAd();
+            }
+        });
+        
+    }
+    static public void showBanner()
+    {
+        Extension.mainActivity.runOnUiThread(new Runnable() {
+            public void run()
+            {
+                _self.adView.setVisibility(AppLovinAdView.VISIBLE);
+                
+                Animation animation1 = new AlphaAnimation(0.0f, 1.0f);
+                animation1.setDuration(1000);
+                _self.layout.startAnimation(animation1);
+            }
+        });
+    }
+    static public void hideBanner()
+    {
+        Extension.mainActivity.runOnUiThread(new Runnable() {
+            public void run()
+            {
+                Animation animation1 = new AlphaAnimation(1.0f, 0.0f);
+                animation1.setDuration(1000);
+                _self.layout.startAnimation(animation1);
+                
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        _self.adView.setVisibility(AppLovinAdView.GONE);
+                    }
+                }, 1000);
+            }
+        });
+    }
+    static public void moveBanner(final String gravityMode)
+    {
+        Extension.mainActivity.runOnUiThread(new Runnable() {
+            public void run()
+            {
+                if(gravityMode.equals("TOP"))
+                {
+                    if(_self.adView==null)
+                    {
+                        AppLovinEx.gravity=Gravity.TOP | Gravity.CENTER_HORIZONTAL;
+                    }else
+                    {
+                        AppLovinEx.gravity=Gravity.TOP | Gravity.CENTER_HORIZONTAL;
+                        _self.layout.setGravity(gravity);
+                    }
+                }else
+                {
+                    if(_self.adView==null)
+                    {
+                        AppLovinEx.gravity=Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
+                    }else
+                    {
+                        AppLovinEx.gravity=Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
+                        _self.layout.setGravity(gravity);
+                    }
+                }
+            }
+        });
+    }
+    
     
     static public void loadInterstitial()
     {

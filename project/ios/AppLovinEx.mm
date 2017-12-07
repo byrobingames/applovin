@@ -14,16 +14,30 @@ using namespace applovin;
 
 extern "C" void sendAppLovinEvent(char* event, const char* data);
 
+@interface AppLovinBannerController : NSObject <ALAdLoadDelegate>
+{
+    UIViewController *root;
+}
+-(void)loadBannerAd;
+-(void)showBannerAd;
+-(void)hideBannerAd;
+-(void)setPosition:(NSString*)position;
+
+@property (nonatomic, strong) ALAdView *adView;
+
+@end
+
 @interface AppLovinInterstitialController : NSObject <ALAdLoadDelegate, ALAdDisplayDelegate, ALAdVideoPlaybackDelegate>
 {
 
 }
 
-- (void)initSDK;
+- (void)initSDK:(NSString*)testmode;
 - (void)loadInterstitialAd;
 - (void)showInterstitialAd;
 
 @property (nonatomic, strong) ALAd *ad;
+
 @end
 
 @interface AppLovinRewardedController : NSObject <ALAdLoadDelegate, ALAdRewardDelegate, ALAdDisplayDelegate, ALAdVideoPlaybackDelegate>
@@ -36,13 +50,82 @@ extern "C" void sendAppLovinEvent(char* event, const char* data);
 
 @end
 
+@implementation AppLovinBannerController
+
+-(void)loadBannerAd
+{
+    root = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+    self.adView = [[ALAdView alloc] initWithSize: [ALAdSize sizeBanner]];
+    
+    self.adView.adLoadDelegate = self;
+    //self.adView.adDisplayDelegate = self;
+    //self.adView.adEventDelegate = self;
+    
+    [self.adView loadNextAd];
+}
+-(void)showBannerAd
+{
+    self.adView.hidden=false;
+}
+-(void)hideBannerAd
+{
+    self.adView.hidden=true;
+}
+    
+-(void)setPosition:(NSString*)position
+{
+        
+    BOOL bottom=[position isEqualToString:@"BOTTOM"];
+        
+    if (bottom) // Reposition the adView to the bottom of the screen
+    {
+        CGRect frame = self.adView.frame;
+        //frame.origin.x = (root.view.bounds.size.width - frame.size.width)/2;
+        frame.origin.y = root.view.bounds.size.height - frame.size.height;
+        self.adView.frame=frame;
+            
+    }else // Reposition the adView to the top of the screen
+    {
+        CGRect frame = self.adView.frame;
+        //frame.origin.x = (root.view.bounds.size.width - frame.size.width)/2;
+        frame.origin.y = 0;
+        self.adView.frame=frame;
+    }
+}
+    
+#pragma mark - Ad Load Delegate
+    
+- (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad
+    {
+        //[self log: @"Banner Loaded"];
+        NSLog(@"Banner Loaded");
+        
+        [root.view addSubview: self.adView];
+        [self setPosition:@"BOTTOM"];
+        sendAppLovinEvent("bannerIsLoaded", "");
+    }
+    
+- (void)adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code
+    {
+        // Look at ALErrorCodes.h for list of error codes
+       // [self log: @"Banner failed to load with error code = %d", code];
+        NSLog(@"Banner faile to load  = %d", code);
+        sendAppLovinEvent("bannerfailedtoLoaded", "");
+    }
+
+@end
+
 @implementation AppLovinInterstitialController
 
-- (void)initSDK
+- (void)initSDK:(NSString*)testmode
 {
     NSLog(@"AppLovin Init");
     
     [ALSdk initializeSdk];
+    
+    if([testmode isEqualToString:@"YES"]){
+        [ALSdk shared].settings.isTestAdsEnabled = YES;
+    }
 }
 
 - (void)loadInterstitialAd
@@ -60,7 +143,7 @@ extern "C" void sendAppLovinEvent(char* event, const char* data);
     if ( [ALInterstitialAd isReadyForDisplay] )
     {
         //set Delegate
-        //[ALInterstitialAd shared].adLoadDelegate = self;
+        [ALInterstitialAd shared].adLoadDelegate = self;
         [ALInterstitialAd shared].adDisplayDelegate = self;
         [ALInterstitialAd shared].adVideoPlaybackDelegate = self;
         
@@ -259,10 +342,16 @@ extern "C" void sendAppLovinEvent(char* event, const char* data);
 
 namespace applovin {
 	
-	static AppLovinInterstitialController *applovinInterstitialController;
+	static AppLovinBannerController *applovinBannerController;
+    static AppLovinInterstitialController *applovinInterstitialController;
     static AppLovinRewardedController *applovinRewardedController;
     
-	void initAppLovin(){
+	void initAppLovin(const char *testmode){
+        
+        if (applovinBannerController == NULL) {
+            
+            applovinBannerController = [[AppLovinBannerController alloc] init];
+        }
         
         if(applovinInterstitialController == NULL)
         {
@@ -273,11 +362,37 @@ namespace applovin {
             
             applovinRewardedController = [[AppLovinRewardedController alloc] init];
         }
+        
+        NSString *testmodenew = [NSString stringWithUTF8String:testmode];
 
-        [applovinInterstitialController initSDK];
+        [applovinInterstitialController initSDK:testmodenew];
     }
     
-
+    void loadBanner()
+    {
+        if(applovinBannerController!=NULL) [applovinBannerController loadBannerAd];
+    }
+    
+    void showBanner()
+    {
+        if(applovinBannerController!=NULL) [applovinBannerController showBannerAd];
+    }
+    
+    void hideBanner()
+    {
+        if(applovinBannerController!=NULL) [applovinBannerController hideBannerAd];
+    }
+    
+    void moveBanner(const char *gravity)
+    {
+        if(applovinBannerController!=NULL)
+        {
+            NSString *position = [NSString stringWithUTF8String:gravity];
+            
+            [applovinBannerController setPosition:position];
+        }
+    }
+    
     void loadInterstitial()
     {
         if(applovinInterstitialController!=NULL) [applovinInterstitialController loadInterstitialAd];

@@ -5,11 +5,15 @@
 namespace applovin {
 	
 	
-	void initAppLovin();
+	void initAppLovin(const char *testmode);
     void loadInterstitial();
 	void showInterstitial();
     void loadRewarded();
     void showRewarded();
+    void loadBanner();
+    void showBanner();
+    void hideBanner();
+    void moveBanner(const char *gravity);
 }
 
 

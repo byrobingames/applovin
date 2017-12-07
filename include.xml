@@ -3,7 +3,7 @@
     <section if="mobile">
     <!-- Fill in your SDK Key from https://www.applovin.com/account#keys -->
     <!--<setenv name="APPLOVIN_SDKKEY" value="PLACE SDK KEY HERE" />-->
-    <setenv name="APPLOVIN_SDKKEY" value="Jr9B8kzpg2R4oCRUXUPeCXV0kC2q-XeHMpTUWRIBUkGHximSB96OhcOPqREozu4JgTpC_6OTqelmLVDXfKwLyI" />
+    [APPLOVINSDKKEY]
     
     </section>
         

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ALAnnotations.h"
+#import "ALPostbackDelegate.h"
 
 AL_ASSUME_NONNULL_BEGIN
 
@@ -19,6 +19,11 @@ AL_ASSUME_NONNULL_BEGIN
  *  Should you need to report a broken ad to AppLovin support, please include this number's longValue.
  */
 @property (strong, nonatomic, readonly) NSNumber *adIdNumber;
+
+/**
+ *  The zone identifier for the ad, if any.
+ */
+@property (copy, nonatomic, readonly, alnullable) NSString *zoneIdentifier;
 
 /**
  *  The title of the native ad.
@@ -65,12 +70,22 @@ AL_ASSUME_NONNULL_BEGIN
 /**
  *  The impression tracking URL of the native ad.
  */
-@property (strong, nonatomic, readonly) NSURL *impressionTrackingURL;
+@property (strong, nonatomic, readonly) NSURL *impressionTrackingURL __deprecated_msg("Invoke method -trackImpression or -trackImpressionAndNotify: rather than firing this URL yourself.");
+
+/**
+ *  Fires the impression asynchronously.
+ */
+- (void)trackImpression;
+
+/**
+ *  Fires the impression asynchronously and notifies the provided delegate.
+ */
+- (void)trackImpressionAndNotify:(alnullable id<ALPostbackDelegate>)postbackDelegate;
 
 /**
  *  The click URL the native ad redirects to.
  */
-@property (strong, nonatomic, readonly) NSURL *clickURL __deprecated_msg("Invoke method -launchClickTarget rather than opening this URL yourself.");
+@property (strong, nonatomic, readonly, alnullable) NSURL *clickURL __deprecated_msg("Invoke method -launchClickTarget rather than opening this URL yourself.");
 
 /**
  *  The video begin tracking URL of the native ad.

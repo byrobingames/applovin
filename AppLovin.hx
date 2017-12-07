@@ -9,16 +9,24 @@ import openfl.Lib;
 #end
 
 #if android
+#if openfl_legacy
 import openfl.utils.JNI;
+#else
+import lime.system.JNI;
+#end
 #end
 
 import com.stencyl.Engine;
 import com.stencyl.Input;
 import openfl.events.MouseEvent;
+import scripts.ByRobinAssets;
 
 class AppLovin {
 	
-	private static var initialized:Bool=false;
+	
+	private static var initialized:Bool = false;
+	private static var _bannerIsLoaded:Bool=false;
+	private static var _bannerFailedToLoad:Bool=false;
 	private static var _interstitialIsLoaded:Bool=false;
 	private static var _interstitialFailedToLoad:Bool=false;
 	private static var _interstitialIsDisplayed:Bool=false;
@@ -40,15 +48,21 @@ class AppLovin {
 	private static var _currency:String = "";
 	private static var _amount:String = "";
 	
+	private static var testmode:String;
+	
 
 	////////////////////////////////////////////////////////////////////////////
 	#if ios
-	private static var __init:Void->Void = function(){};
+	private static var __init:String->Void = function(testMode:String){};
 	private static var __applovin_set_event_handle = Lib.load("applovin","applovin_set_event_handle", 1);
 	#end
 	#if android
 	private static var __init:Dynamic;
 	#end
+	private static var __loadBanner:Void->Void = function(){};
+	private static var __showBanner:Void->Void = function(){};
+	private static var __hideBanner:Void->Void = function(){};
+	private static var __moveBanner:String->Void = function(gravity:String){};
 	private static var __loadInterstitial:Void->Void = function(){};
 	private static var __showInterstitial:Void->Void = function(){};
 	private static var __loadRewarded:Void->Void = function(){};
@@ -57,19 +71,31 @@ class AppLovin {
 	////////////////////////////////////////////////////////////////////////////
 	
 	public static function init(){
+		
+		if(ByRobinAssets.AppLoTestAds)
+		{
+			testmode = "YES";
+		}else
+		{
+			testmode = "NO";
+		}
 	
 		#if ios
 		if(initialized) return;
 		initialized = true;
 		try{
 			// CPP METHOD LINKING
-			__init = Lib.load("applovin","applovin_init",0);
+			__init = Lib.load("applovin", "applovin_init", 1);
+			__loadBanner = Lib.load("applovin", "applovin_banner_load", 0);
+			__showBanner = Lib.load("applovin", "applovin_banner_show", 0);
+			__hideBanner = Lib.load("applovin", "applovin_banner_hide", 0);
+			__moveBanner = Lib.load("applovin", "applovin_banner_move", 1);
 			__loadInterstitial = Lib.load("applovin","applovin_interstitial_load",0);
 			__showInterstitial = Lib.load("applovin","applovin_interstitial_show",0);
 			__loadRewarded = Lib.load("applovin","applovin_rewarded_load",0);
 			__showRewarded = Lib.load("applovin","applovin_rewarded_show",0);
 
-			__init();
+			__init(testmode);
 			__applovin_set_event_handle(notifyListeners);
 		}catch(e:Dynamic){
 			trace("iOS INIT Exception: "+e);
@@ -81,23 +107,60 @@ class AppLovin {
 		initialized = true;
 		try{
 			// JNI METHOD LINKING
-			__loadInterstitial = openfl.utils.JNI.createStaticMethod("com/byrobin/applovin/AppLovinEx", "loadInterstitial", "()V");
-			__showInterstitial = openfl.utils.JNI.createStaticMethod("com/byrobin/applovin/AppLovinEx", "showInterstitial", "()V");
-			__loadRewarded = openfl.utils.JNI.createStaticMethod("com/byrobin/applovin/AppLovinEx", "loadRewarded", "()V");
-			__showRewarded = openfl.utils.JNI.createStaticMethod("com/byrobin/applovin/AppLovinEx", "showRewarded", "()V");
+			__loadBanner = JNI.createStaticMethod("com/byrobin/applovin/AppLovinEx", "loadBanner", "()V");
+			__showBanner = JNI.createStaticMethod("com/byrobin/applovin/AppLovinEx", "showBanner", "()V");
+			__hideBanner = JNI.createStaticMethod("com/byrobin/applovin/AppLovinEx", "hideBanner", "()V");
+			__moveBanner = JNI.createStaticMethod("com/byrobin/applovin/AppLovinEx", "moveBanner", "(Ljava/lang/String;)V");
+			__loadInterstitial = JNI.createStaticMethod("com/byrobin/applovin/AppLovinEx", "loadInterstitial", "()V");
+			__showInterstitial = JNI.createStaticMethod("com/byrobin/applovin/AppLovinEx", "showInterstitial", "()V");
+			__loadRewarded = JNI.createStaticMethod("com/byrobin/applovin/AppLovinEx", "loadRewarded", "()V");
+			__showRewarded = JNI.createStaticMethod("com/byrobin/applovin/AppLovinEx", "showRewarded", "()V");
 			
 			if(__init == null)
 			{
-				__init = JNI.createStaticMethod("com/byrobin/applovin/AppLovinEx", "init", "(Lorg/haxe/lime/HaxeObject;)V", true);
+				__init = JNI.createStaticMethod("com/byrobin/applovin/AppLovinEx", "init", "(Lorg/haxe/lime/HaxeObject;Ljava/lang/String;)V", true);
 			}
 	
 			var args = new Array<Dynamic>();
 			args.push(new AppLovin());
+			args.push(testmode);
 			__init(args);
 		}catch(e:Dynamic){
 			trace("Android INIT Exception: "+e);
 		}
 		#end
+	}
+	
+	public static function loadBanner() {
+		try {
+			__loadBanner();
+		} catch(e:Dynamic) {
+			trace("LoadBanner Exception: "+e);
+		}
+	}
+	
+	public static function showBanner() {
+		try {
+			__showBanner();
+		} catch(e:Dynamic) {
+			trace("ShowBanner Exception: "+e);
+		}
+	}
+	
+	public static function hideBanner() {
+		try {
+			__hideBanner();
+		} catch(e:Dynamic) {
+			trace("hideBanner Exception: "+e);
+		}
+	}
+	
+	public static function moveBanner(gravity:String) {
+		try {
+			__moveBanner(gravity);
+		} catch(e:Dynamic) {
+			trace("moveBanner Exception: "+e);
+		}
 	}
 	
 	public static function loadInterstitial() {
@@ -133,6 +196,26 @@ class AppLovin {
 		}
 	}
 	////////
+	public static function bannerIsLoaded():Bool{
+		
+		if(_bannerIsLoaded){
+			_bannerIsLoaded = false;
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public static function bannerFailedToLoad():Bool{
+		
+		if(_bannerFailedToLoad){
+			_bannerFailedToLoad = false;
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public static function interstitialIsLoaded():Bool{
 		
 		if(_interstitialIsLoaded){
@@ -302,6 +385,14 @@ class AppLovin {
 		var event:String = Std.string(Reflect.field(inEvent, "type"));
 		var data:String = Std.string(Reflect.field(inEvent, "data"));
 		
+		if(event == "bannerIsLoaded")
+		{
+			_bannerIsLoaded = true;
+		}
+		if(event == "bannerfailedtoLoaded")
+		{
+			_bannerFailedToLoad = true;
+		}
 		if(event == "interstitialIsLoaded")
 		{
 			_interstitialIsLoaded = true;
@@ -397,6 +488,14 @@ class AppLovin {
 	#if android
 	private function new() {}
 	
+	public function onBannerIsLoaded() 
+	{
+		_bannerIsLoaded = true;
+	}
+	public function onBannerFailedToLoad() 
+	{
+		_bannerFailedToLoad = true;
+	}
 	public function onInterstitialIsLoaded() 
 	{
 		_interstitialIsLoaded = true;

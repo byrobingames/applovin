@@ -23,12 +23,37 @@ static void applovin_set_event_handle(value onEvent)
 }
 DEFINE_PRIM(applovin_set_event_handle, 1);
 
-static value applovin_init(){
-	initAppLovin();
+static value applovin_init(value testmode){
+	initAppLovin(val_string(testmode));
 	return alloc_null();
 }
-DEFINE_PRIM(applovin_init,0);
+DEFINE_PRIM(applovin_init,1);
+//banner
+static value applovin_banner_load(){
+    loadBanner();
+    return alloc_null();
+}
+DEFINE_PRIM(applovin_banner_load,0);
 
+static value applovin_banner_show(){
+    showBanner();
+    return alloc_null();
+}
+DEFINE_PRIM(applovin_banner_show,0);
+
+static value applovin_banner_hide(){
+    hideBanner();
+    return alloc_null();
+}
+DEFINE_PRIM(applovin_banner_hide,0);
+
+static value applovin_banner_move(value gravity){
+    moveBanner(val_string(gravity));
+    return alloc_null();
+}
+DEFINE_PRIM(applovin_banner_move,1);
+
+///interstitial
 static value applovin_interstitial_load(){
     loadInterstitial();
     return alloc_null();
