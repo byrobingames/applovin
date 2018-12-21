@@ -8,7 +8,7 @@ Stencyl extension for “AppLovin” (http://www.applovin.com) for iOS and Andro
 
 This Extension Required the Toolset Extension Manager [https://byrobingames.github.io](https://byrobingames.github.io)
 
-![applovintoolset](https://byrobingames.github.io/img/heyzap/applovintoolset.png)
+![applovintoolset](https://byrobingames.github.io/img/applovin/applovintoolset.png)
 
 ## Main Features
 
