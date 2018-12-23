@@ -64,6 +64,13 @@ Repository: [https://github.com/byrobingames/applovin](https://github.com/byrobi
 Need help with a pull request?<br/>
 [https://help.github.com/articles/creating-a-pull-request/](https://help.github.com/articles/creating-a-pull-request/)
 
+### ANY ISSUES?
+Add the issue on GitHub
+Repository: https://github.com/byrobingames/applovin/issues
+
+Need help with creating a issue?
+https://help.github.com/articles/creating-an-issue/
+
 ## Donate
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HKLGFCAGKBMFL)<br />
