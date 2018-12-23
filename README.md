@@ -41,7 +41,7 @@ Blocks
   * Callback for Interstitial/Video and Rewarded Video<br/>
   ![callbacks](https://byrobingames.github.io/img/applovin/callbacks.png)
   * Get Currency/Amount of Rewarded Video<br/>
-   ![applovingetcurrencyamount.](https://byrobingames.github.io/img/applovin/applovingetcurrencyamount..png)
+   ![applovingetcurrencyamount](https://byrobingames.github.io/img/applovin/applovingetcurrencyamount.png)
 
 ## Version History
 
