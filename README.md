@@ -18,6 +18,7 @@ This Extension Required the Toolset Extension Manager [https://byrobingames.gith
 ## How to Install
 
 To install this Engine Extension, go to the toolset (byRobin Extension Mananger) in the Extension menu of your game inside Stencyl.<br/>
+![toolsetextensionlocation](https://byrobingames.github.io/img/toolset/toolsetextensionlocation.png)<br/>
 Select the Engine Extension from the left menu and click on "Download"
 
 If you not have byRobin Extension Mananger installed, install this first.
