@@ -65,10 +65,11 @@ Need help with a pull request?<br/>
 [https://help.github.com/articles/creating-a-pull-request/](https://help.github.com/articles/creating-a-pull-request/)
 
 ### ANY ISSUES?
-Add the issue on GitHub
+
+Add the issue on GitHub<br/>
 Repository: https://github.com/byrobingames/applovin/issues
 
-Need help with creating a issue?
+Need help with creating a issue?<br/>
 https://help.github.com/articles/creating-an-issue/
 
 ## Donate
