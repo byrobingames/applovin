@@ -67,10 +67,10 @@ Need help with a pull request?<br/>
 ### ANY ISSUES?
 
 Add the issue on GitHub<br/>
-Repository: https://github.com/byrobingames/applovin/issues
+Repository: [https://github.com/byrobingames/applovin/issues](https://github.com/byrobingames/applovin/issues)
 
 Need help with creating a issue?<br/>
-https://help.github.com/articles/creating-an-issue/
+[https://help.github.com/articles/creating-an-issue/](https://help.github.com/articles/creating-an-issue/)
 
 ## Donate
 
