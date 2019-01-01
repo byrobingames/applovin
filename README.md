@@ -32,9 +32,12 @@ Go to: [https://byrobingames.github.io](https://byrobingames.github.io)
 If you don’t have an account, create one on [http://www.applovin.com](http://www.applovin.com) and get your SDK KEY.
 
 Enter your SDK Key on the “AppLovinPage” in the Toolset.<br/>
-![applovinsdkkey](https://byrobingames.github.io/img/applovin/applovinsdkkey.png)
+![applovinsdkkey](https://byrobingames.github.io/img/applovin/applovinsdkkey.png)<br/>
 
-Blocks
+Enable Testads on the “AppLovinPage” in the Toolset.<br/>
+![applovinenbaletestads](https://byrobingames.github.io/img/applovin/applovinenbaletestads.png)
+
+**Blocks**
 
   * Initialize AppLovin<br/>
   ![applovininitialize](https://byrobingames.github.io/img/applovin/applovininitialize.png)
@@ -48,6 +51,16 @@ Blocks
   
   * Load/Show AppLovin Rewarded Video<br/>
   ![applovinloadshowrewarded](https://byrobingames.github.io/img/applovin/applovinloadshowrewarded.png)
+  
+  <hr/>
+  
+  * Load/Show/Hide AppLovin Banner<br/>
+  ![applovinbanner](https://byrobingames.github.io/img/applovin/applovinbanner.png)
+  
+  <hr/>
+  
+  * Callback for Banner<br/>
+  ![applovinbannercallbacks](https://byrobingames.github.io/img/applovin/applovinbannercallbacks.png)
   
   <hr/>
   
