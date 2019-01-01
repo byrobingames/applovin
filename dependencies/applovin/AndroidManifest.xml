@@ -17,6 +17,9 @@
         
         <activity android:name="com.applovin.adview.AppLovinInterstitialActivity" android:configChanges="orientation|screenSize"/>
         <activity android:name="com.applovin.adview.AppLovinConfirmationActivity" android:configChanges="orientation|screenSize"/>
+        <activity
+        android:name="com.applovin.sdk.AppLovinWebViewActivity"
+        android:configChanges="keyboardHidden|orientation|screenSize" />
         
     </application>
 </manifest>

@@ -1,7 +1,7 @@
 /*
  *
  * Created by Robin Schaafsma
- * www.byrobingames.com
+ * https:/\/byrobingames.github.io
  *
  */
 #include <hx/CFFI.h>
@@ -58,8 +58,6 @@ extern "C" void sendAppLovinEvent(char* event, const char* data);
     self.adView = [[ALAdView alloc] initWithSize: [ALAdSize sizeBanner]];
     
     self.adView.adLoadDelegate = self;
-    //self.adView.adDisplayDelegate = self;
-    //self.adView.adEventDelegate = self;
     
     [self.adView loadNextAd];
 }
@@ -140,30 +138,25 @@ extern "C" void sendAppLovinEvent(char* event, const char* data);
 {
     NSLog(@"AppLovin: Show Interstitial/Video");
 
-    if ( [ALInterstitialAd isReadyForDisplay] )
-    {
-        //set Delegate
-        [ALInterstitialAd shared].adLoadDelegate = self;
-        [ALInterstitialAd shared].adDisplayDelegate = self;
-        [ALInterstitialAd shared].adVideoPlaybackDelegate = self;
-        
-        //[[ALInterstitialAd shared] show];
-        [[ALInterstitialAd shared] showOver: [UIApplication sharedApplication].keyWindow andRender: self.ad];
-        NSLog(@"AppLovin: Interstitial Shown");
-    }
+    //set Delegate
+    [ALInterstitialAd shared].adDisplayDelegate = self;
+    [ALInterstitialAd shared].adVideoPlaybackDelegate = self;
+
+    [[ALInterstitialAd shared] showOver: [UIApplication sharedApplication].keyWindow andRender: self.ad];
+    NSLog(@"AppLovin: Interstitial Shown");
 }
 
 
 #pragma mark - Ad Load Delegate
 
-- (void)adService:(nonnull ALAdService *)adService didLoadAd:(nonnull ALAd *)ad
+- (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad
 {
     NSLog(@"Interstitial Loaded");
     self.ad = ad;
     sendAppLovinEvent("interstitialIsLoaded", "");
 }
 
-- (void) adService:(nonnull ALAdService *)adService didFailToLoadAdWithError:(int)code
+- (void) adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code
 {
     // Look at ALErrorCodes.h for list of error codes
     NSLog(@"Interstitial failed to load with error code = %d", code);
@@ -172,19 +165,19 @@ extern "C" void sendAppLovinEvent(char* event, const char* data);
 
 #pragma mark - Ad Display Delegate
 
-- (void)ad:(nonnull ALAd *)ad wasDisplayedIn:(nonnull UIView *)view
+- (void)ad:(ALAd *)ad wasDisplayedIn:(UIView *)view
 {
     NSLog(@"Interstitial Displayed");
     sendAppLovinEvent("interstitialIsDisplayed", "");
 }
 
-- (void)ad:(nonnull ALAd *)ad wasHiddenIn:(nonnull UIView *)view
+- (void)ad:(ALAd *)ad wasHiddenIn:(UIView *)view
 {
     NSLog(@"Interstitial Dismissed");
     sendAppLovinEvent("interstitialClosed", "");
 }
 
-- (void)ad:(nonnull ALAd *)ad wasClickedIn:(nonnull UIView *)view
+- (void)ad:(ALAd *)ad wasClickedIn:(UIView *)view
 {
     NSLog(@"Interstitial Clicked");
     sendAppLovinEvent("interstitialClicked", "");
@@ -192,13 +185,13 @@ extern "C" void sendAppLovinEvent(char* event, const char* data);
 
 #pragma mark - Ad Video Playback Delegate
 
-- (void)videoPlaybackBeganInAd:(nonnull ALAd *)ad
+- (void)videoPlaybackBeganInAd:(ALAd *)ad
 {
     NSLog(@"Video Started");
     sendAppLovinEvent("videoStarted", "");
 }
 
-- (void)videoPlaybackEndedInAd:(nonnull ALAd *)ad atPlaybackPercent:(nonnull NSNumber *)percentPlayed fullyWatched:(BOOL)wasFullyWatched
+- (void)videoPlaybackEndedInAd:(ALAd *)ad atPlaybackPercent:(NSNumber *)percentPlayed fullyWatched:(BOOL)wasFullyWatched
 {
     NSLog(@"Video Ended");
     sendAppLovinEvent("videoEnded", "");
@@ -228,13 +221,13 @@ extern "C" void sendAppLovinEvent(char* event, const char* data);
 }
 #pragma mark - Ad Load Delegate
 
-- (void)adService:(nonnull ALAdService *)adService didLoadAd:(nonnull ALAd *)ad
+- (void)adService:(ALAdService *)adService didLoadAd:(ALAd *)ad
 {
     NSLog(@"Rewarded Loaded");
     sendAppLovinEvent("rewardedIsLoaded", "");
 }
 
-- (void) adService:(nonnull ALAdService *)adService didFailToLoadAdWithError:(int)code
+- (void) adService:(ALAdService *)adService didFailToLoadAdWithError:(int)code
 {
     // Look at ALErrorCodes.h for list of error codes
     NSLog(@"Rewarded failed to load with error code = %d", code);
@@ -243,19 +236,19 @@ extern "C" void sendAppLovinEvent(char* event, const char* data);
 
 #pragma mark - Ad Display Delegate
 
-- (void)ad:(nonnull ALAd *)ad wasDisplayedIn:(nonnull UIView *)view
+- (void)ad:(ALAd *)ad wasDisplayedIn:(UIView *)view
 {
     NSLog(@"Rewarded Displayed");
     sendAppLovinEvent("rewardedIsDisplayed", "");
 }
 
-- (void)ad:(nonnull ALAd *)ad wasHiddenIn:(nonnull UIView *)view
+- (void)ad:(ALAd *)ad wasHiddenIn:(UIView *)view
 {
     NSLog(@"Rewarded Dismissed");
     sendAppLovinEvent("rewardedClosed", "");
 }
 
-- (void)ad:(nonnull ALAd *)ad wasClickedIn:(nonnull UIView *)view
+- (void)ad:(ALAd *)ad wasClickedIn:(UIView *)view
 {
     NSLog(@"Rewarded Clicked");
     sendAppLovinEvent("rewardedClicked", "");
@@ -263,13 +256,13 @@ extern "C" void sendAppLovinEvent(char* event, const char* data);
 
 #pragma mark - Ad Video Playback Delegate
 
-- (void)videoPlaybackBeganInAd:(nonnull ALAd *)ad
+- (void)videoPlaybackBeganInAd:(ALAd *)ad
 {
     NSLog(@"Rewarded Video Started");
     sendAppLovinEvent("rewardedStarted", "");
 }
 
-- (void)videoPlaybackEndedInAd:(nonnull ALAd *)ad atPlaybackPercent:(nonnull NSNumber *)percentPlayed fullyWatched:(BOOL)wasFullyWatched
+- (void)videoPlaybackEndedInAd:(ALAd *)ad atPlaybackPercent:(NSNumber *)percentPlayed fullyWatched:(BOOL)wasFullyWatched
 {
     NSLog(@"Video Ended");
     sendAppLovinEvent("rewardedEnded", "");
@@ -277,25 +270,31 @@ extern "C" void sendAppLovinEvent(char* event, const char* data);
 
 #pragma mark - Ad Reward Delegate
 
-- (void)rewardValidationRequestForAd:(ALAd *)ad didSucceedWithResponse:(nonnull NSDictionary *)response
+- (void)rewardValidationRequestForAd:(ALAd *)ad didSucceedWithResponse:(NSDictionary *)response
 {
     /* AppLovin servers validated the reward. Refresh user balance from your server.  We will also pass the number of coins
      awarded and the name of the currency.  However, ideally, you should verify this with your server before granting it. */
+    
+    NSLog(@"response %@ ",response);
     sendAppLovinEvent("rewardedFullyWatched", "");
     
     // i.e. - "Coins", "Gold", whatever you set in the dashboard.
     //NSString *currencyName = [response objectForKey: @"currency"];
-    const char *currencyName = [[response objectForKey: @"currency"] UTF8String];
+    //NSString *currencyName = response[@"currency"];
+    //const char *currencyName = [[response objectForKey: @"currency"] UTF8String];
+    const char *currencyName = [response[@"currency"] UTF8String];
     
     // For example, "5" or "5.00" if you've specified an amount in the UI.
-    //NSString *amountGivenString = [response objectForKey: @"amount"];
-    NSNumber *amountGiven = [NSNumber numberWithFloat: [[response objectForKey: @"amount"] floatValue]];
+    //NSString *amountGivenString = response[@"amount"]; //[response objectForKey: @"amount"];
+    //NSNumber *amountGiven = @([amountGivenString floatValue]);
+    NSNumber *amountGiven = [NSNumber numberWithFloat: [response[@"amount"] floatValue]];
     NSString *amountGivenString = [amountGiven stringValue];
     const char *amount = [amountGivenString UTF8String];
     
     // Do something with this information.
     // [MYCurrencyManagerClass updateUserCurrency: currencyName withChange: amountGiven];
     //NSLog(@"Rewarded %@ %@", amountGiven, currencyName);
+    NSLog(@"reward currency %s ammount %s",currencyName,amount);
     sendAppLovinEvent("getCurrency", currencyName);
     sendAppLovinEvent("getAmount", amount);
     

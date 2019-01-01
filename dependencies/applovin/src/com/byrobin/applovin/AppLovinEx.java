@@ -1,7 +1,7 @@
 /*
  *
  * Created by Robin Schaafsma
- * www.byrobingames.com
+ * https://byrobingames.github.io
  * copyright
  */
 
@@ -229,18 +229,12 @@ public class AppLovinEx extends Extension {
         
 		Extension.mainActivity.runOnUiThread(new Runnable() {
 			public void run()
-            {
-                /*if(AppLovinInterstitialAd.isAdReadyToDisplay(mainActivity)){
-                    // An ad is available to display.  It's safe to call show.
-                    _self.interstitialAdDialog.show();
-                }else{
-                    // No ad is available to display.  Perform failover logic...
-                }*/
-                
-                if (_self.currentAd != null) {
-                    _self.interstitialAdDialog.showAndRender(_self.currentAd);
-                }
-            }
+                        {
+
+                            if (_self.currentAd != null) {
+                                _self.interstitialAdDialog.showAndRender(_self.currentAd);
+                            }
+                        }
 		});
 		Log.d("AppLovinEX","Show Interstitial End ");
 	}

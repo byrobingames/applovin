@@ -15,6 +15,9 @@ This Extension Required the Toolset Extension Manager [https://byrobingames.gith
   * Interstitial/Video Support.
   * Rewarded Video Support.
   
+**GDPR Compliance** <br/>
+Under Privacy Settings in your Appovin Dashboard you can enable GDPR Compliance for EU.
+  
 ## How to Install
 
 To install this Engine Extension, go to the toolset (byRobin Extension Mananger) in the Extension menu of your game inside Stencyl.<br/>
@@ -35,12 +38,24 @@ Blocks
 
   * Initialize AppLovin<br/>
   ![applovininitialize](https://byrobingames.github.io/img/applovin/applovininitialize.png)
+  
+  <hr/>
+  
   * Load/Show AppLovin Interstitial/Video<br/>
   ![applovinloadshowinterstitial](https://byrobingames.github.io/img/applovin/applovinloadshowinterstitial.png)
+  
+  <hr/>
+  
   * Load/Show AppLovin Rewarded Video<br/>
   ![applovinloadshowrewarded](https://byrobingames.github.io/img/applovin/applovinloadshowrewarded.png)
+  
+  <hr/>
+  
   * Callback for Interstitial/Video and Rewarded Video<br/>
   ![callbacks](https://byrobingames.github.io/img/applovin/callbacks.png)
+  
+  <hr/>
+  
   * Get Currency/Amount of Rewarded Video<br/>
    ![applovingetcurrencyamount](https://byrobingames.github.io/img/applovin/applovingetcurrencyamount.png)
 
@@ -52,7 +67,8 @@ Blocks
 - 2017-03-19 (0.0.4) Updated to use with Heyzap Extension 2.9, Update SDK to iOS: 3.5.2 Android: 6.4.2, Added Android Gradle support for openfl4
 - 2017-05-16(0.0.5) Update SDK to iOS: 4.02 Android: 7.0.3, Tested for Stencyl 3.5, Required byRobin Toolset Extension Manager
 - 2017-07-29(0.0.6) Downgrade SDK to iOS: 3.5.2 Android:6.4.2, works stable with Heyzap.
-- 2017-12-07(0.0.7) Update SDK to iOS: 4.6.0 Android:7.6.0, added banner support use byRobin Toolset manager =>v5
+- 2017-12-07(0.0.7) Update AppLovin SDK to iOS: 4.6.0 Android:7.6.0, added banner support use byRobin Toolset manager =>v5
+- 2019-01-01(0.0.8) Update AppLovin SDK to iOS: 6.1.4 Android:9.1.3
 
 ## Submitting a Pull Request
 

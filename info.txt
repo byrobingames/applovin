@@ -1,7 +1,7 @@
-name=AppLovin Advertising v0.0.7 (byRobin)
+name=AppLovin Advertising v0.0.8 (byRobin)
 description=Implements AppLovin for iOS and Android.
 author=Robin Schaafsma
 website=http://www.byrobingames.com
-version=0.0.7
+version=0.0.8
 compatibility=mobile
 dependencies=toolset-com.byrobingames.manager-0.0.1
