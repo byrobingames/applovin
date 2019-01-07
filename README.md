@@ -17,6 +17,8 @@ This Extension Required the Toolset Extension Manager [https://byrobingames.gith
   
 **GDPR Compliance** <br/>
 Under Privacy Settings in your Appovin Dashboard you can enable GDPR Compliance for EU.
+
+Set Consent and Age Restricted programmatically See documantation and block section. 
   
 ## How to Install
 
@@ -71,6 +73,32 @@ Enable Testads on the “AppLovinPage” in the Toolset.<br/>
   
   * Get Currency/Amount of Rewarded Video<br/>
    ![applovingetcurrencyamount](https://byrobingames.github.io/img/applovin/applovingetcurrencyamount.png)
+   
+   <hr/>
+   
+### Privacy Settings
+   
+AppLovin SDK requires that publishers set a flag indicating whether a user located in the European Economic Area (i.e., EAA/GDPR data subject) has provided opt-in consent for the collection and use of personal data.
+   
+For users outside the EAA, this flag is not required to be set in the SDK and if set, will not impact how the ad is served to such non-EAA users.
+
+**Set "has user consented"** (Europe users only)<b/>
+- If the user has consented, please set the following flag to YES.<br/>
+- If the user has not consented, please set the following flag to NO.<br/>
+![applovinsetconsent](https://byrobingames.github.io/img/applovin/applovinsetconsent.png)
+
+**Get "has user consented"** (Europe users only)<b/>
+Return true(YES) of false(NO) after user has consented.<br/>
+![applovinsetconsent](https://byrobingames.github.io/img/applovin/applovingetconsent.png)
+
+**Set "is user age restricted"** <br/>
+- If the user is known to be in an age-restricted category (i.e., under the age of 16) please set the following flag to YES.<br/>
+- If the user is known to not be in an age-restricted category (i.e., age 16 or older) please set the following flag to NO.<br/>
+![applovinsetagerestricted](https://byrobingames.github.io/img/applovin/applovinsetagerestricted.png)
+
+**Get "is user age restricted"** <br/>
+Return true(YES) of false(NO) if user is age restricted.<br/>
+![applovinsetagerestricted](https://byrobingames.github.io/img/applovin/applovingetagerestricted.png)
 
 ## Version History
 
@@ -82,6 +110,7 @@ Enable Testads on the “AppLovinPage” in the Toolset.<br/>
 - 2017-07-29(0.0.6) Downgrade SDK to iOS: 3.5.2 Android:6.4.2, works stable with Heyzap.
 - 2017-12-07(0.0.7) Update AppLovin SDK to iOS: 4.6.0 Android:7.6.0, added banner support use byRobin Toolset manager =>v5
 - 2019-01-01(0.0.8) Update AppLovin SDK to iOS: 6.1.4 Android:9.1.3
+- 2019-01-07(0.0.9) Added set/get Consent and set/get Age Restricted block.
 
 ## Submitting a Pull Request
 

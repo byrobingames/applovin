@@ -78,6 +78,28 @@ static value applovin_rewarded_show(){
 }
 DEFINE_PRIM(applovin_rewarded_show,0);
 
+static value applovin_setuserconsent(value isGranted){
+    setHasUserConsent(val_bool(isGranted));
+    return alloc_null();
+}
+DEFINE_PRIM(applovin_setuserconsent,1);
+
+static value applovin_setagerestricted(value isGranted){
+    setIsAgeRestricted(val_bool(isGranted));
+    return alloc_null();
+}
+DEFINE_PRIM(applovin_setagerestricted,1);
+
+static value applovin_getuserconsent(){
+    return alloc_bool(getHasUserConsent());
+}
+DEFINE_PRIM(applovin_getuserconsent,0);
+
+static value applovin_getagerestricted(){
+    return alloc_bool(getIsAgeRestricted());
+}
+DEFINE_PRIM(applovin_getagerestricted,0);
+
 #endif
 
 extern "C" void applovin_main () {

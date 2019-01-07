@@ -22,8 +22,8 @@ import openfl.events.MouseEvent;
 import scripts.ByRobinAssets;
 
 class AppLovin {
-	
-	
+
+
 	private static var initialized:Bool = false;
 	private static var _bannerIsLoaded:Bool=false;
 	private static var _bannerFailedToLoad:Bool=false;
@@ -34,7 +34,7 @@ class AppLovin {
 	private static var _interstitialClicked:Bool=false;
 	private static var _videoStarted:Bool=false;
 	private static var _videoEnded:Bool=false;
-	
+
 	private static var _rewardedIsLoaded:Bool=false;
 	private static var _rewardedFailedToLoad:Bool=false;
 	private static var _rewardedIsDisplayed:Bool=false;
@@ -44,12 +44,12 @@ class AppLovin {
 	private static var _rewardedEnded:Bool=false;
 	private static var _rewardedFullyWatched:Bool=false;
 	private static var _rewardedNotFullyWatched:Bool=false;
-	
+
 	private static var _currency:String = "";
 	private static var _amount:String = "";
-	
+
 	private static var testmode:String;
-	
+
 
 	////////////////////////////////////////////////////////////////////////////
 	#if ios
@@ -67,11 +67,15 @@ class AppLovin {
 	private static var __showInterstitial:Void->Void = function(){};
 	private static var __loadRewarded:Void->Void = function(){};
 	private static var __showRewarded:Void->Void = function(){};
+	private static var __setHasUserConsent:Bool->Void = function(isGranted:Bool){};
+	private static var __setIsAgeRestricted:Bool->Void = function(isGranted:Bool){};
+	private static var __getHasUserConsent:Void->Bool = function(){return false;};
+	private static var __getIsAgeRestricted:Void->Bool = function(){return false;};
 
 	////////////////////////////////////////////////////////////////////////////
-	
+
 	public static function init(){
-		
+
 		if(ByRobinAssets.AppLoTestAds)
 		{
 			testmode = "YES";
@@ -79,7 +83,7 @@ class AppLovin {
 		{
 			testmode = "NO";
 		}
-	
+
 		#if ios
 		if(initialized) return;
 		initialized = true;
@@ -94,6 +98,10 @@ class AppLovin {
 			__showInterstitial = Lib.load("applovin","applovin_interstitial_show",0);
 			__loadRewarded = Lib.load("applovin","applovin_rewarded_load",0);
 			__showRewarded = Lib.load("applovin","applovin_rewarded_show",0);
+			__setHasUserConsent = Lib.load("applovin","applovin_setuserconsent",1);
+			__setIsAgeRestricted = Lib.load("applovin","applovin_setagerestricted",1);
+			__getHasUserConsent = Lib.load("applovin","applovin_getuserconsent",0);
+			__getIsAgeRestricted = Lib.load("applovin","applovin_getagerestricted",0);
 
 			__init(testmode);
 			__applovin_set_event_handle(notifyListeners);
@@ -101,7 +109,7 @@ class AppLovin {
 			trace("iOS INIT Exception: "+e);
 		}
 		#end
-		
+
 		#if android
 		if(initialized) return;
 		initialized = true;
@@ -115,12 +123,16 @@ class AppLovin {
 			__showInterstitial = JNI.createStaticMethod("com/byrobin/applovin/AppLovinEx", "showInterstitial", "()V");
 			__loadRewarded = JNI.createStaticMethod("com/byrobin/applovin/AppLovinEx", "loadRewarded", "()V");
 			__showRewarded = JNI.createStaticMethod("com/byrobin/applovin/AppLovinEx", "showRewarded", "()V");
-			
+			__setHasUserConsent = JNI.createStaticMethod("com/byrobin/applovin/AppLovinEx", "setHasUserConsent", "(Z)V");
+			__setIsAgeRestricted = JNI.createStaticMethod("com/byrobin/applovin/AppLovinEx", "setIsAgeRestricted", "(Z)V");
+			__getHasUserConsent = JNI.createStaticMethod("com/byrobin/applovin/AppLovinEx", "getHasUserConsent", "()Z");
+			__getIsAgeRestricted = JNI.createStaticMethod("com/byrobin/applovin/AppLovinEx", "getIsAgeRestricted", "()Z");
+
 			if(__init == null)
 			{
 				__init = JNI.createStaticMethod("com/byrobin/applovin/AppLovinEx", "init", "(Lorg/haxe/lime/HaxeObject;Ljava/lang/String;)V", true);
 			}
-	
+
 			var args = new Array<Dynamic>();
 			args.push(new AppLovin());
 			args.push(testmode);
@@ -130,7 +142,7 @@ class AppLovin {
 		}
 		#end
 	}
-	
+
 	public static function loadBanner() {
 		try {
 			__loadBanner();
@@ -138,7 +150,7 @@ class AppLovin {
 			trace("LoadBanner Exception: "+e);
 		}
 	}
-	
+
 	public static function showBanner() {
 		try {
 			__showBanner();
@@ -146,7 +158,7 @@ class AppLovin {
 			trace("ShowBanner Exception: "+e);
 		}
 	}
-	
+
 	public static function hideBanner() {
 		try {
 			__hideBanner();
@@ -154,7 +166,7 @@ class AppLovin {
 			trace("hideBanner Exception: "+e);
 		}
 	}
-	
+
 	public static function moveBanner(gravity:String) {
 		try {
 			__moveBanner(gravity);
@@ -162,7 +174,7 @@ class AppLovin {
 			trace("moveBanner Exception: "+e);
 		}
 	}
-	
+
 	public static function loadInterstitial() {
 		try {
 			__loadInterstitial();
@@ -170,8 +182,8 @@ class AppLovin {
 			trace("LoadInterstitial Exception: "+e);
 		}
 	}
-	
-	
+
+
 	public static function showInterstitial() {
 		try {
 			__showInterstitial();
@@ -179,7 +191,7 @@ class AppLovin {
 			trace("ShowInterstitial Exception: "+e);
 		}
 	}
-	
+
 	public static function loadRewarded() {
 		try {
 			__loadRewarded();
@@ -187,7 +199,7 @@ class AppLovin {
 			trace("LoadRewardedVideo Exception: "+e);
 		}
 	}
-	
+
 	public static function showRewarded() {
 		try {
 			__showRewarded();
@@ -195,196 +207,221 @@ class AppLovin {
 			trace("ShowRewardedVideo Exception: "+e);
 		}
 	}
+
+	public static function setHasUserConsent(isGranted:Bool) {
+		try {
+			__setHasUserConsent(isGranted);
+		} catch(e:Dynamic) {
+			trace("SetConsent Exception: "+e);
+		}
+	}
+
+	public static function getHasUserConsent():Bool {
+		return __getHasUserConsent();
+	}
+
+	public static function setIsAgeRestricted(isGranted:Bool) {
+		try {
+			__setIsAgeRestricted(isGranted);
+		} catch(e:Dynamic) {
+			trace("SetAgeRestricted Exception: "+e);
+		}
+	}
+
+	public static function getIsAgeRestricted():Bool {
+		return __getIsAgeRestricted();
+	}
+
 	////////
 	public static function bannerIsLoaded():Bool{
-		
+
 		if(_bannerIsLoaded){
 			_bannerIsLoaded = false;
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public static function bannerFailedToLoad():Bool{
-		
+
 		if(_bannerFailedToLoad){
 			_bannerFailedToLoad = false;
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public static function interstitialIsLoaded():Bool{
-		
+
 		if(_interstitialIsLoaded){
 			_interstitialIsLoaded = false;
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public static function interstitialFailedToLoad():Bool{
-		
+
 		if(_interstitialFailedToLoad){
 			_interstitialFailedToLoad = false;
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public static function interstitialIsDisplayed():Bool{
-		
+
 		if(_interstitialIsDisplayed){
 			_interstitialIsDisplayed = false;
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public static function interstitialClosed():Bool{
-		
+
 		if(_interstitialClosed){
 			_interstitialClosed = false;
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public static function interstitialClicked():Bool{
-		
-		if(_interstitialClicked){	
+
+		if(_interstitialClicked){
 			_interstitialClicked = false;
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public static function videoStarted():Bool{
-		
+
 		if(_videoStarted){
 			_videoStarted = false;
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public static function videoEnded():Bool{
-		
+
 		if(_videoEnded){
 			_videoEnded = false;
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public static function rewardedIsLoaded():Bool{
-		
+
 		if(_rewardedIsLoaded){
 			_rewardedIsLoaded = false;
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public static function rewardedFailedToLoad():Bool{
-		
+
 		if(_rewardedFailedToLoad){
 			_rewardedFailedToLoad = false;
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public static function rewardedClosed():Bool{
-		
+
 		if(_rewardedClosed){
 			_rewardedClosed = false;
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public static function rewardedClicked():Bool{
-		
-		if(_rewardedClicked){	
+
+		if(_rewardedClicked){
 			_rewardedClicked = false;
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public static function rewardedStarted():Bool{
-		
+
 		if(_rewardedStarted){
 			_rewardedStarted = false;
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public static function rewardedEnded():Bool{
-		
+
 		if(_rewardedEnded){
 			_rewardedEnded = false;
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public static function rewardedFullyWatched():Bool{
-		
+
 		if(_rewardedFullyWatched){
 			_rewardedFullyWatched = false;
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public static function rewardedNotFullyWatched():Bool{
-		
+
 		if(_rewardedNotFullyWatched){
 			_rewardedNotFullyWatched = false;
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public static function getCurrency():String{
-		
+
 		return _currency;
 	}
-	
+
 	public static function getAmount():String{
-		
+
 		return _amount;
 	}
-	
+
 	///////Events Callbacks/////////////
-	
+
 	#if ios
 	//Ads Events only happen on iOS.
 	private static function notifyListeners(inEvent:Dynamic)
 	{
 		var event:String = Std.string(Reflect.field(inEvent, "type"));
 		var data:String = Std.string(Reflect.field(inEvent, "data"));
-		
+
 		if(event == "bannerIsLoaded")
 		{
 			_bannerIsLoaded = true;
@@ -484,49 +521,49 @@ class AppLovin {
 		}
 	}
 	#end
-	
+
 	#if android
 	private function new() {}
-	
-	public function onBannerIsLoaded() 
+
+	public function onBannerIsLoaded()
 	{
 		_bannerIsLoaded = true;
 	}
-	public function onBannerFailedToLoad() 
+	public function onBannerFailedToLoad()
 	{
 		_bannerFailedToLoad = true;
 	}
-	public function onInterstitialIsLoaded() 
+	public function onInterstitialIsLoaded()
 	{
 		_interstitialIsLoaded = true;
 	}
-	public function onInterstitialFailedToLoad() 
+	public function onInterstitialFailedToLoad()
 	{
 		_interstitialFailedToLoad = true;
 	}
-	public function onInterstitialIsDisplayed() 
+	public function onInterstitialIsDisplayed()
 	{
 		_interstitialIsDisplayed = true;
 	}
-	public function onInterstitialClosed() 
+	public function onInterstitialClosed()
 	{
 		_interstitialClosed = true;
 	}
-	public function onInterstitialClicked() 
+	public function onInterstitialClicked()
 	{
 		_interstitialClicked = true;
 	}
-	public function onVideoStarted() 
+	public function onVideoStarted()
 	{
 		_videoStarted = true;
 	}
-	public function onVideoEnded() 
+	public function onVideoEnded()
 	{
 		_videoEnded = true;
 	}
-	
+
 	//rewarded
-	public function onRewardedIsLoaded() 
+	public function onRewardedIsLoaded()
 	{
 		_rewardedIsLoaded = true;
 	}
@@ -534,7 +571,7 @@ class AppLovin {
 	{
 		_rewardedFailedToLoad = true;
 	}
-	public function onRewardedIsDisplayed() 
+	public function onRewardedIsDisplayed()
 	{
 		_rewardedIsDisplayed = true;
 	}
@@ -542,7 +579,7 @@ class AppLovin {
 	{
 		_rewardedClosed = true;
 	}
-	public function onRewardedClicked() 
+	public function onRewardedClicked()
 	{
 		_rewardedClicked = true;
 	}
@@ -550,7 +587,7 @@ class AppLovin {
 	{
 		_rewardedStarted = true;
 	}
-	public function onRewardedEnded() 
+	public function onRewardedEnded()
 	{
 		_rewardedEnded = true;
 	}

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <palette>
-    
+
     <block tag="initAppLovin" spec="Initialize AppLovin [c:applovin]" code="AppLovin.init();" help="Add Your AppLovin SDK Key in the include.xml fine in the applovin extension folder" type="action" color="charcoal" returns="void">
         <fields>
         </fields>
     </block>
-    
+
     <block tag="loadshowbannerAppLovin" spec=" %0 AppLovin Banner [c:applovin]" code="AppLovin.~Banner();" help="Load the Banner before you can show an Banner ad" type="action" color="charcoal" returns="void">
         <fields>
             <dropdown order="0">
@@ -17,7 +17,7 @@
             </dropdown>
         </fields>
     </block>
-    
+
     <block tag="movebannerAppLovin" spec="Move AppLovin Banner to %0 [c:applovin]" code="AppLovin.moveBanner(~);" help="Move banner to bottom or top. Default banner at bottom" type="action" color="charcoal" returns="void">
         <fields>
             <dropdown order="0">
@@ -28,7 +28,7 @@
             </dropdown>
         </fields>
     </block>
-    
+
     <block tag="showInterstitialAppLovin" spec=" %0 AppLovin Interstitial/Video [c:applovin]" code="AppLovin.~Interstitial();" help="Load the Interstitial before you can show an Interstitial/Video ad" type="action" color="charcoal" returns="void">
         <fields>
             <dropdown order="0">
@@ -39,7 +39,7 @@
             </dropdown>
         </fields>
     </block>
-    
+
     <block tag="loadRewardedAppLovin" spec=" %0 AppLovin Rewarded Video [c:applovin]" code="AppLovin.~Rewarded();"  help="Load the Rewarded Video before you can show an Reward Video" type="action" color="charcoal" returns="void">
         <fields>
             <dropdown order="0">
@@ -50,7 +50,35 @@
             </dropdown>
         </fields>
     </block>
-    
+
+    <block tag="setConsentIsAgeRestrictedAppLovin" spec="AppLovin set %0 to: %1 [c:applovin]" code="AppLovin.~(~);"  help="If the user has consented or is age restricted, please set the following flag to YES, If the user has not consented or age restricted, please set the following flag to NO." type="action" color="charcoal" returns="void">
+        <fields>
+          <dropdown order="0">
+              <choices>
+                  <c text="has user consented" code="setHasUserConsent"></c>
+                  <c text="is user age restricted" code="setIsAgeRestricted"></c>
+              </choices>
+          </dropdown>
+            <dropdown order="1">
+                <choices>
+                    <c text="YES" code="true"></c>
+                    <c text="NO" code="false"></c>
+                </choices>
+            </dropdown>
+        </fields>
+    </block>
+
+    <block tag="getHasConsenIsAgeRestrictedAppLovin" spec="Applovin %0 [c:applovin]" code="AppLovin.~()" help="Return true or false after setUserConsent and/or setIsAgeRestricted is set" type="normal" color="charcoal" returns="boolean">
+        <fields>
+            <dropdown order="0">
+                <choices>
+                    <c text="has user consented" code="getHasUserConsent"></c>
+                    <c text="is user age restricted" code="getIsAgeRestricted"></c>
+                </choices>
+            </dropdown>
+        </fields>
+    </block>
+
     <block tag="getCurrencyAmountAppLovin" spec="Get %0 [c:applovin]" code="AppLovin.~()" help="Gets the Currency and Amount as Text from Applovin Dashboard (rewarded video only)" type="normal" color="charcoal" returns="text">
         <fields>
             <dropdown order="0">
@@ -61,7 +89,7 @@
             </dropdown>
         </fields>
     </block>
-    
+
     <block tag="getBannerAdInfoAppLovin" spec="AppLovin Banner ad %0 [c:applovin]" code="AppLovin.~()" type="normal" color="charcoal" returns="boolean">
         <fields>
             <dropdown order="0">
@@ -72,7 +100,7 @@
             </dropdown>
         </fields>
     </block>
-    
+
     <block tag="getInterstitialAdInfoAppLovin" spec="AppLovin Interstitial/Video Ad %0 [c:applovin]" code="AppLovin.~()" type="normal" color="charcoal" returns="boolean">
         <fields>
             <dropdown order="0">
@@ -88,7 +116,7 @@
             </dropdown>
         </fields>
     </block>
-    
+
     <block tag="getRewardedAdInfoAppLovin" spec="AppLovin Rewarded Video %0 [c:applovin]" code="AppLovin.~()" type="normal" color="charcoal" returns="boolean">
         <fields>
             <dropdown order="0">
@@ -106,6 +134,6 @@
             </dropdown>
         </fields>
     </block>
-    
-    
+
+
 </palette>

@@ -14,6 +14,10 @@ namespace applovin {
     void showBanner();
     void hideBanner();
     void moveBanner(const char *gravity);
+    void setHasUserConsent(bool isGranted);
+    void setIsAgeRestricted(bool isGranted);
+    bool getHasUserConsent();
+    bool getIsAgeRestricted();
 }
 
 

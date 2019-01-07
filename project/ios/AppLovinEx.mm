@@ -18,10 +18,10 @@ extern "C" void sendAppLovinEvent(char* event, const char* data);
 {
     UIViewController *root;
 }
--(void)loadBannerAd;
--(void)showBannerAd;
--(void)hideBannerAd;
--(void)setPosition:(NSString*)position;
+- (void)loadBannerAd;
+- (void)showBannerAd;
+- (void)hideBannerAd;
+- (void)setPosition:(NSString*)position;
 
 @property (nonatomic, strong) ALAdView *adView;
 
@@ -145,7 +145,6 @@ extern "C" void sendAppLovinEvent(char* event, const char* data);
     [[ALInterstitialAd shared] showOver: [UIApplication sharedApplication].keyWindow andRender: self.ad];
     NSLog(@"AppLovin: Interstitial Shown");
 }
-
 
 #pragma mark - Ad Load Delegate
 
@@ -412,5 +411,33 @@ namespace applovin {
         if(applovinRewardedController!=NULL) [applovinRewardedController showRewardedAd];
     }
     
+    void setHasUserConsent(bool isGranted)
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:isGranted forKey:@"gdpr_consent"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [ALPrivacySettings setHasUserConsent: isGranted];
+        
+        NSLog(@"Applovin: UserConsent is set to = %@", isGranted ? @"YES" : @"NO");
+    }
     
+    void setIsAgeRestricted(bool isGranted)
+    {
+        [[NSUserDefaults standardUserDefaults] setBool:isGranted forKey:@"age_restricted"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [ALPrivacySettings setIsAgeRestrictedUser: isGranted];
+        
+        NSLog(@"Applovin: AgeRestricted is set to = %@", isGranted ? @"YES" : @"NO");
+    }
+    
+    bool getHasUserConsent()
+    {
+        return [[NSUserDefaults standardUserDefaults] boolForKey:@"gdpr_consent"];
+    }
+    
+    bool getIsAgeRestricted()
+    {
+        return [[NSUserDefaults standardUserDefaults] boolForKey:@"age_restricted"];
+    }
 }

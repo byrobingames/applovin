@@ -31,7 +31,10 @@ import com.applovin.sdk.AppLovinAdSize;
 import com.applovin.sdk.AppLovinAdVideoPlaybackListener;
 import com.applovin.sdk.AppLovinErrorCodes;
 import com.applovin.sdk.AppLovinSdk;
+import com.applovin.sdk.AppLovinPrivacySettings;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.Gravity;
 import android.view.animation.Animation;
 import android.view.animation.AlphaAnimation;
@@ -39,6 +42,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.view.ViewGroup;
+
 
 import java.util.Map;
 
@@ -60,6 +64,9 @@ public class AppLovinEx extends Extension {
     private AppLovinAd currentAd;
     
     private static int gravity=Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
+
+    private static boolean _consentIsSet = false;
+    private static boolean _ageRestrictedIsSet = false;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,6 +96,7 @@ public class AppLovinEx extends Extension {
         Extension.mainActivity.runOnUiThread(new Runnable() {
             public void run()
             {
+
                 if(_self.adView==null){ // if this is the first time we call this function
                     _self.layout = new LinearLayout(mainActivity);
                     _self.layout.setGravity(gravity);
@@ -245,6 +253,7 @@ public class AppLovinEx extends Extension {
      Extension.mainActivity.runOnUiThread(new Runnable() {
          public void run()
         {
+
             _self.incentivizedInterstitial = AppLovinIncentivizedInterstitial.create(mainContext);
             _self.incentivizedInterstitial.preload(new AppLovinAdLoadListener() {
                 @Override
@@ -380,9 +389,80 @@ public class AppLovinEx extends Extension {
                 }
             }
         });
-        Log.d("AppLovinEX","Show Rewarded End ");
+        Log.d("AppLovinEX","AppLovinEx Show Rewarded End ");
     }
-    
+
+    //Privacy Settings
+    static public void setHasUserConsent(final boolean isGranted){
+
+
+        SharedPreferences.Editor editor = mainActivity.getPreferences(Context.MODE_PRIVATE).edit();
+        if(editor == null) {
+                Log.d("AppLovinEx", "AppLovinEx Failed to write user consent to preferences");
+                return;
+        }
+
+        editor.putBoolean("gdpr_consent", isGranted);
+        boolean committed = editor.commit();
+
+        if(!committed) {
+                Log.d("AppLovinEx", "AppLovinEx Failed to write user consent to preferences");
+        }
+
+        AppLovinPrivacySettings.setHasUserConsent( isGranted, mainContext );
+        Log.d("AppLovinEx","AppLovinEx Consent is set to: " + isGranted);
+
+
+    }
+
+    static public void setIsAgeRestricted(final boolean isGranted){
+
+        SharedPreferences.Editor editor = mainActivity.getPreferences(Context.MODE_PRIVATE).edit();
+        if(editor == null) {
+                Log.d("AppLovinEx", "AppLovinEx Failed to write age restricted to preferences");
+                return;
+        }
+
+        editor.putBoolean("age_restricted", isGranted);
+        boolean committed = editor.commit();
+
+        if(!committed) {
+                Log.d("AppLovinEx", "AppLovinEx Failed to write age restricted to preferences");
+        }
+
+        AppLovinPrivacySettings.setIsAgeRestrictedUser( isGranted, mainContext );
+        Log.d("AppLovinEx","AppLovinEx AgeRestricted is set to: " + isGranted);
+
+    }
+
+    public static boolean getHasUserConsent(){
+
+        SharedPreferences prefs = mainActivity.getPreferences(Context.MODE_PRIVATE); //mainContext.getSharedPreferences("ApplovinPrivacy",Context.MODE_PRIVATE);
+        if(prefs == null) {
+                Log.i("AppLovinEx", "AppLovinEx Failed to read user conent preference data");
+        }
+
+        final Boolean isGranted = prefs.getBoolean("gdpr_consent", false);
+
+        Log.d("AppLovinEx","AppLovinEx get userConsent is: " + isGranted);
+
+        return isGranted;
+    }
+
+    public static boolean getIsAgeRestricted(){
+
+        SharedPreferences prefs = mainActivity.getPreferences(Context.MODE_PRIVATE); //mainContext.getSharedPreferences("ApplovinPrivacy",Context.MODE_PRIVATE);
+        if(prefs == null) {
+                Log.i("AppLovinEx", "AppLovinEx Failed to read user conent preference data");
+        }
+
+        final Boolean isGranted = prefs.getBoolean("age_restricted", false);
+
+        Log.d("AppLovinEx","AppLovinEx get AgeRestricted is: " + isGranted);
+
+        return isGranted;
+    }
+
     //////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////
     
