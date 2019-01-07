@@ -82,18 +82,20 @@ AppLovin SDK requires that publishers set a flag indicating whether a user locat
    
 For users outside the EAA, this flag is not required to be set in the SDK and if set, will not impact how the ad is served to such non-EAA users.
 
-**Set "has user consented"** (Europe users only)<b/>
+**Set "has user consented"** (Europe users only)<br/>
 - If the user has consented, please set the following flag to YES.<br/>
 - If the user has not consented, please set the following flag to NO.<br/>
+
 ![applovinsetconsent](https://byrobingames.github.io/img/applovin/applovinsetconsent.png)
 
-**Get "has user consented"** (Europe users only)<b/>
+**Get "has user consented"** (Europe users only)<br/>
 Return true(YES) of false(NO) after user has consented.<br/>
 ![applovinsetconsent](https://byrobingames.github.io/img/applovin/applovingetconsent.png)
 
 **Set "is user age restricted"** <br/>
 - If the user is known to be in an age-restricted category (i.e., under the age of 16) please set the following flag to YES.<br/>
 - If the user is known to not be in an age-restricted category (i.e., age 16 or older) please set the following flag to NO.<br/>
+
 ![applovinsetagerestricted](https://byrobingames.github.io/img/applovin/applovinsetagerestricted.png)
 
 **Get "is user age restricted"** <br/>
