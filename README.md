@@ -33,7 +33,7 @@ Go to: [https://byrobingames.github.io](https://byrobingames.github.io)
 
 If you don’t have an account, create one on [http://www.applovin.com](http://www.applovin.com) and get your SDK KEY.
 
-!!ON ANDROID YOU NEED TO ENABLE ADMOB ADS INSIDE STENCYL!!
+<span style="color:red;">!!ON ANDROID YOU NEED TO ENABLE ADMOB ADS INSIDE STENCYL!!</span>
 
 Enter your SDK Key on the “AppLovinPage” in the Toolset.<br/>
 ![applovinsdkkey](https://byrobingames.github.io/img/applovin/applovinsdkkey.png)<br/>
